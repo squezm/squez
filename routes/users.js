@@ -5,8 +5,8 @@ var UserModel = mongoose.model('UserModel');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  /*
-  var today = Date.now()
+
+  /*var today = Date.now()
   UserModel.create({
     username: 'markandtiff18',
     age: 22,
@@ -31,8 +31,8 @@ router.get('/', function(req, res, next) {
     id: 3,
     username: 'iamsquez'
   }
-]);
-*/
+]);*/
+
 
 });
 

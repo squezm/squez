@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 //connect to database
+var dbpassword = 'orion5SKY'; //hide using environment variable
+var mongolabURI = 'mongodb://squezm:'+dbpassword+'@ds133627.mlab.com:33627/heroku_g5p0bbbv';
 var mongoDB = 'mongodb://localhost/marks_database';
-mongoose.connect(mongoDB, {useMongoClient: true});
+mongoose.connect(mongolabURI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB had a connection error.'));

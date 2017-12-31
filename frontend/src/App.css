@@ -1,0 +1,110 @@
+span {
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  border-right: solid 1px;
+}
+
+span:hover, span:active {
+  background-color: rgba(227,235,249,1);
+  cursor: pointer;
+}
+
+textarea#comment {
+  height: 10em;
+  width: auto;
+}
+
+.App-menu {
+  text-align: center;
+  cursor: pointer;
+}
+
+.App-mobile-menu {
+  display: none;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App-content {
+  width: 100%;
+}
+
+.App-article {
+  padding: 0.5em;
+  text-align: left;
+}
+
+.App-article-title{
+  text-align: center;
+}
+
+.date {
+  text-align: center;
+  font-size: 80%;
+}
+
+.App-comments {
+  margin-top: 1em;
+  padding: 0.5em;
+  position: relative;
+  left: 4em;
+}
+
+p.App-article-first::first-letter{
+  line-height: 1em;
+  font-weight: bolder;
+  font-size: 200%;
+  float: left;
+  padding-right: 5px;
+}
+
+.no-border{
+  border: none;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================= Mobile layout ============================= */
+
+@media screen and (max-width: 767.9px) {
+
+  .App-menu {
+    display: none;
+  }
+
+  .App-mobile-menu {
+    display: block;
+    cursor: pointer;
+    height: 1.5em;
+    padding-top: 0.5em;
+    text-align: center;
+  }
+
+  .App-comments {
+    position: static;
+    margin-top: 0;
+  }
+
+}
