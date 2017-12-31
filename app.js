@@ -24,14 +24,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //static files
-app.use(express.static(path.join(__dirname, 'frontend/build/public')));
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 //app.use('/', index);
 app.use('/users', users);
 
 //React app
 app.get('*', (req,res) => {
-  res.sendFile(path.join(__dirname+'/frontend/build/index.html'))
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'))
 })
 
 // catch 404 and forward to error handler
