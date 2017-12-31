@@ -137,12 +137,6 @@ function ReturnTop(props){
     );
 }
 
-function EndScroll(props){
-  return(
-    <span onClick={props.stop}>Stop scroll</span>
-  );
-}
-
 class App extends Component {
   constructor(props){
     super(props);
@@ -151,27 +145,22 @@ class App extends Component {
     };
     this.intervalId = null;
     this.goToTop = this.goToTop.bind(this);
-    this.stopScroll = this.stopScroll.bind(this);
   }
 
   componentDidMount(){
     fetch('/users')
     .then(res=>res.json())
-    .then(users=>this.setState({users}));
+      .then(users=>{this.setState({users}); console.log(this.state.users)});
   }
 
   goToTop(){
-    let scrollSize = Math.round(window.screen.height/150);
-    scrollSize = -1*scrollSize;
-    function scrollTop() {
-      window.scrollBy(0,scrollSize);
-      console.log("scrolling");
+    let yPos, deltaY;
+    let scrollUp = (timestamp) => {
+      yPos = window.scrollY;
+      deltaY = -1 * Math.round(yPos/20);
+      if (yPos > 10) {window.scrollBy(0, deltaY); requestAnimationFrame(scrollUp)} else {cancelAnimationFrame(scrollUp)}
     }
-    this.intervalId = window.setInterval(scrollTop, 1);
-  }
-
-  stopScroll() {
-    window.clearInterval(this.intervalId); alert("complete");
+    requestAnimationFrame(scrollUp);
   }
 
   render() {
@@ -197,8 +186,6 @@ class App extends Component {
             Site Designs
           </h1>
         </header>
-
-        <EndScroll stop={this.stopScroll} />
 
         <div className="App-content pure-g">
           <AppArticle date={dateNow} />

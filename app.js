@@ -24,14 +24,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //static files
-app.use(express.static(path.join(__dirname, 'frontend/build')));
+app.use(express.static(path.join(__dirname, 'frontend/build/public')));
 
 //app.use('/', index);
 app.use('/users', users);
 
 //React app
 app.get('*', (req,res) => {
-  res.sendFile(path.join(__dirname+'/frontend/build/index.html'))
+  res.sendFile(path.join(__dirname+'/frontend/build/public/index.html'))
 })
 
 // catch 404 and forward to error handler
@@ -52,7 +52,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const port = process.env.PORT || 5000
-app.listen(port)
+const port = process.env.port || 5000;
+app.listen(port);
 
 module.exports = app;
