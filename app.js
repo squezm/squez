@@ -9,6 +9,7 @@ require('./marks_model');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var comments = require('./routes/comments');
 
 
 var app = express();
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 //app.use('/', index);
 app.use('/users', users);
+app.use('/comments', comments);
 
 //React app
 app.get('*', (req,res) => {

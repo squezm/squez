@@ -60,7 +60,11 @@ const AppHeader = (
 function AppArticle(props) {
   return (
     <div className="App-article pure-u-1 pure-u-md-7-12">
-      <h3 className="App-article-title">Article Title </h3>
+      <h3 className="App-article-title">
+        <a className="no-underline" href="https://www.savetheinternet.com/net-neutrality-what-you-need-know-now">
+          Net Neutrality
+        </a>
+      </h3>
 
       <div className="date">{props.date}</div>
 
@@ -95,34 +99,53 @@ function AppArticle(props) {
   );
 }
 
-const AppComments = (
-  <div className="App-comments pure-u-1 pure-u-md-5-12">
+function AppComments (props) {
+  return(
+    <div className="App-comments pure-u-1 pure-u-md-5-12">
 
-    <form className="pure-form pure-form-stacked">
+      <form className="pure-form pure-form-stacked" onSubmit={props.handleSubmit}>
 
-      <fieldset>
-        <h3>Comment on this article</h3>
-        <label htmlFor="name">Your name</label>
-        <input id="name" type="text" placeholder="Name"/>
+        <fieldset>
+          <h3>Comment on this article</h3>
+          <label htmlFor="name">Your name</label>
+          <input
+            id="name"
+            name="name"
+            placeholder="Name"
+            value={props.comment.name}
+            onChange={props.handleChange}
+          />
 
-        <label htmlFor="rating">Rate this article</label>
-        <select id="rating">
-          <option>5</option>
-          <option>4</option>
-          <option>3</option>
-          <option>2</option>
-          <option>1</option>
-        </select>
+          <label htmlFor="rating">Rate this article</label>
+          <select
+            id="rating"
+            name="rating"
+            value={props.comment.rating}
+            onChange={props.handleChange}
+            >
+            <option>5</option>
+            <option>4</option>
+            <option>3</option>
+            <option>2</option>
+            <option>1</option>
+          </select>
 
-        <label htmlFor="comment">Facts or opinions, all are welcome</label>
-        <textarea id="comment" placeholder="Write something here..."/>
+          <label htmlFor="comment">Facts or opinions, all are welcome</label>
+          <textarea
+            id="comment"
+            name="content"
+            placeholder="Write something here..."
+            value={props.comment.content}
+            onChange={props.handleChange}
+          />
 
-        <button type="submit" className="pure-button">Submit</button>
-      </fieldset>
-    </form>
+          <button type="submit" className="pure-button">Submit</button>
+        </fieldset>
+      </form>
 
-  </div>
+    </div>
 );
+}
 
 function AppContent(props){
   return (
@@ -132,7 +155,11 @@ function AppContent(props){
         date={props.dateNow}
       />
       <div>
-        {AppComments}
+        <AppComments
+          comment={props.commentObject}
+          handleChange={props.handleInputChange}
+          handleSubmit={props.handleFormSubmit}
+        />
       </div>
     </div>
 
@@ -152,20 +179,37 @@ class App extends Component {
     super(props);
     this.state = {
       users: [],
+      comments: [],
       firstLoad: true,
       menuStatus: null,
+      comment: {
+        name: "Type your name",
+        rating: 5,
+        content: "Write something here"
+      },
     };
     this.intervalId = null;
     this.goToTop = this.goToTop.bind(this);
     this.menuClickToggle = this.menuClickToggle.bind(this);
     this.hideMobileMenu = this.hideMobileMenu.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount(){
     fetch('/users')
     .then(res=>res.json())
     .then(users=>{this.setState({users}); console.log(this.state.users)});
+
+    fetch('/comments')
+    .then(res=>res.json())
+    .then(comments=>{
+      for (let comment in comments) {
+        console.log(comment);
+      }
+    });
   }
+
 
   menuClickToggle() {
     this.state.firstLoad ? (
@@ -186,6 +230,32 @@ class App extends Component {
       })
     }
 
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      comment: {
+        [name]: value,
+      },
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = this.state.comment;
+    alert(`posting: ${data.name}`);
+    fetch('/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => console.log("Posted to comments: " + data));
+  }
+
   goToTop(){
     const deltaY = -1 * Math.round(window.scrollY/22);
     const scrollUp = () => {
@@ -203,6 +273,7 @@ class App extends Component {
       (<li key={user._id}>User #{user._id} is {user.username}</li>)
     );
     const dateNow = new Date().toLocaleString();
+    let commentObject = this.state.comment;
 
     let isOpen, menuStatus;
     const icon = this.state.menuStatus ? "x" : "=";
@@ -238,7 +309,12 @@ class App extends Component {
 
           {AppHeader}
 
-          <AppContent dateNow={dateNow} />
+          <AppContent
+            dateNow={dateNow}
+            handleInputChange={this.handleChange}
+            handleFormSubmit={this.handleSubmit}
+            commentObject={commentObject}
+          />
 
           <small>Users in database: <br />{userList}</small>
 

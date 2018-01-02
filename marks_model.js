@@ -26,4 +26,11 @@ var UserSchema = new Schema({
   date_joined: Date
 });
 
+var CommentSchema = new Schema({
+  name: String,
+  rating: Number,
+  content: String
+});
+
 mongoose.model('UserModel', UserSchema, 'usermodels');
+mongoose.model('CommentModel', CommentSchema, 'commentmodels');
