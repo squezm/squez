@@ -1,36 +1,45 @@
-span {
-  padding-right: 1.5em;
-  padding-left: 1.5em;
-  border-right: solid 1px;
+html, body {
+  background-color: rgb(0, 15, 30);
+  color: rgb(190, 190, 190);
 }
 
-span:hover, span:active {
-  background-color: rgba(227,235,249,1);
-  cursor: pointer;
+strong {
+  font-weight: bolder;
+  font-size: 250%;
 }
 
-textarea#comment {
-  height: 10em;
-  width: auto;
+.pure-menu-link { /*override pure css*/
+  color: rgb(190, 190, 190);
+}
+
+h1.App-title{
+  position: relative;
+  top: 2.5em;
+  color: rgba(240, 180, 130, 0.35);
+  font-family: georgia;
+}
+
+div.large {
+  font-size: 200%;
 }
 
 .App-menu {
   text-align: center;
   cursor: pointer;
+  height: 2.5em;
+  color: rgba(190, 190, 190, 0.9);
+  position: relative;
+  top: .25em;
 }
 
-.App-mobile-menu {
+.App-mobile-menu, .App-mobile-links{
   display: none;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-image: url('beach.jpg');
+  height: 650px;
+  width: 100%;
   padding: 20px;
   color: white;
   text-align: center;
@@ -46,6 +55,7 @@ textarea#comment {
 
 .App-content {
   width: 100%;
+  border-right: 1px dashed gray;
 }
 
 .App-article {
@@ -53,20 +63,13 @@ textarea#comment {
   text-align: left;
 }
 
-.App-article-title{
+.App-article-title {
   text-align: center;
 }
 
 .date {
   text-align: center;
   font-size: 80%;
-}
-
-.App-comments {
-  margin-top: 1em;
-  padding: 0.5em;
-  position: relative;
-  left: 4em;
 }
 
 p.App-article-first::first-letter{
@@ -77,16 +80,32 @@ p.App-article-first::first-letter{
   padding-right: 5px;
 }
 
-.no-border{
-  border: none;
+.App-comments {
+  margin-top: 1em;
+  padding: 0.5em;
+  position: relative;
+  left: 4em;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+input, select, option, textarea{
+  background-color: rgba(190, 190, 190, 0.3);
+  color: rgb(190, 190, 190);
 }
 
-/* ============================= Mobile layout ============================= */
+textarea#comment {
+  height: 10em;
+  width: auto;
+}
+
+.goTop{
+  text-align: center;
+  font-family: courier;
+  padding: 1em;
+  cursor: pointer;
+  color: rgba(240, 180, 130, 0.9);
+}
+
+/* =================== Mobile layout: use below if screen < max-width ============================= */
 
 @media screen and (max-width: 767.9px) {
 
@@ -97,14 +116,78 @@ p.App-article-first::first-letter{
   .App-mobile-menu {
     display: block;
     cursor: pointer;
-    height: 1.5em;
+    height: 2.2em;
+    color: rgba(190, 190, 190, 0.9);
     padding-top: 0.5em;
     text-align: center;
+  }
+
+  .App-mobile-menu:focus, .App-mobile-menu:hover {
+    color: rgba(240, 240, 240, 0.9);
+  }
+
+  .App-mobile-links {
+    cursor: pointer;
+    display: block;
+  }
+
+  .closed {
+    height: 0;
+    opacity: 0;
+    animation: .75s slide-up;
+  }
+
+  .open {
+    height: 100%;
+    opacity: 1;
+    animation: .75s slide-down;
+  }
+
+  .menu-links-initial {
+    height: 0;
+    opacity: 0;
   }
 
   .App-comments {
     position: static;
     margin-top: 0;
+  }
+
+  .opening {
+    animation: .2s opening-ani;
+    color: orange;
+    transform: rotate(90deg);
+  }
+
+  .closing {
+    animation: .4s closing-ani;
+  }
+
+  @keyframes opening-ani {
+    from {
+    }
+    to {
+      transform: rotate(450deg);
+    }
+  }
+
+  @keyframes closing-ani {
+    from {
+      transform: rotate(90deg);
+    }
+    to {
+      transform: rotate(-810deg);
+    }
+  }
+
+  @keyframes slide-down {
+    from { opacity: 0; height: 0;}
+    100% { opacity: 1; height: 204px;}
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0.8; height: 204px;}
+    100% { opacity: 0; height: 0;}
   }
 
 }
