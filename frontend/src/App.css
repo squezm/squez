@@ -15,7 +15,7 @@ strong {
 h1.App-title{
   position: relative;
   top: 2.5em;
-  color: rgba(240, 180, 130, 0.35);
+  color: rgba(240, 180, 130, 0.55);
   font-family: georgia;
 }
 
@@ -40,7 +40,8 @@ div.large {
   background-image: url('beach.jpg');
   height: 650px;
   width: 100%;
-  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   color: white;
   text-align: center;
 }
@@ -55,7 +56,6 @@ div.large {
 
 .App-content {
   width: 100%;
-  border-right: 1px dashed gray;
 }
 
 .App-article {
@@ -116,7 +116,7 @@ textarea#comment {
   .App-mobile-menu {
     display: block;
     cursor: pointer;
-    height: 2.2em;
+    height: 2.4em;
     color: rgba(190, 190, 190, 0.9);
     padding-top: 0.5em;
     text-align: center;
