@@ -13,25 +13,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', function(req, res, next) {
-/*  var comment = new Comment({
-    name: req.body.name,
-    rating: req.body.rating,
-    content: req.body.content
-  });
-  comment.save(function(err, comment) {
-    if (err) {return next(err)}
-    res.json(201, comment);
-  });*/
-  /*Comment.create({
-    name: req.body.name,
-    rating: req.body.rating,
-    content: req.body.content
-  });*/
   Comment.create({
-    name: "Name",
-    rating: 3,
-    content: "Content"
-  });
+    name: req.body.name,
+    rating: req.body.rating,
+    content: req.body.content
+  })
+  .then(res => console.log(`Added to database: ${res}`));
+
 });
 
 module.exports = router;

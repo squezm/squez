@@ -202,11 +202,7 @@ class App extends Component {
     .then(users=>{this.setState({users}); console.log(this.state.users)});
 
     fetch('/comments')
-    .then(res=>res.json())
-    .then(comments=>{
-      for (let comment in comments) {
-        console.log(comment);
-      }
+    .then(res=>res.json());
     });
   }
 
@@ -244,14 +240,14 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = this.state.comment;
-    alert(`posting: ${data.name}`);
-    fetch('/comments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+    let requestOpts = {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json; charset=UTF-8"
       },
-      body: JSON.stringify(data)
-    })
+      "body": JSON.stringify(data)
+    };
+    fetch("/comments", requestOpts)
     .then(res => res.json())
     .then(data => console.log("Posted to comments: " + data));
   }
