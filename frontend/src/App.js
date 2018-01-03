@@ -202,9 +202,9 @@ class App extends Component {
     .then(users=>{this.setState({users}); console.log(this.state.users)});
 
     fetch('/comments')
-    .then(res=>res.json());
-    });
-  }
+    .then(res=>res.json())
+    .then(data=>console.log("Comments: " + data));
+    }
 
 
   menuClickToggle() {
