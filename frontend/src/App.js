@@ -10,12 +10,13 @@ import './App.css';
 
 /* ================To-do list:=========================================
 
-* One-way data bind the form to API variables
 * Re-factoring is your friend
   -Refactor to simplify via CSS framework
   -Refactor to utilize managable React components
-*Prettify the forms
-*Install react routing
+* Prettify the forms
+* Install react routing
+* Break the app into sub-apps and import into main App
+* Error handling and data validation
 
 ======================================================================*/
 
@@ -182,9 +183,9 @@ class App extends Component {
       comments: [],
       firstLoad: true,
       menuStatus: null,
-      comment: {
+      currentComment: {
         name: "Type your name",
-        rating: 5,
+        rating: 4,
         content: "Write something here"
       },
     };
@@ -194,6 +195,7 @@ class App extends Component {
     this.hideMobileMenu = this.hideMobileMenu.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.postNewComment = this.postNewComment.bind(this);
   }
 
   componentDidMount(){
@@ -203,7 +205,7 @@ class App extends Component {
 
     fetch('/comments')
     .then(res=>res.json())
-    .then(data=>console.log("Comments: " + data));
+    .then(comments=>{this.setState({comments}); console.log(this.state.comments)});
     }
 
 
@@ -230,26 +232,41 @@ class App extends Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
+  /*THE BELOW WAS MUTING THE STATE OF EVERYTHING NOT NAMED IN [NAME]*
     this.setState({
-      comment: {
+      currentComment: {
         [name]: value,
       },
-    });
+    });*/
+    let partialState = {currentComment: this.state.currentComment};
+    partialState.currentComment[name] = value;
+    this.setState(partialState);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const data = this.state.comment;
+    const data = this.state.currentComment;
+    (!data || !data.name || !data.rating || !data.content) ? (
+      alert("need to enter something in the forms")
+    ) : this.postNewComment(data);
+  }
+
+  postNewComment(currentComment){
     let requestOpts = {
       "method": "POST",
       "headers": {
         "Content-Type": "application/json; charset=UTF-8"
       },
-      "body": JSON.stringify(data)
+      "body": JSON.stringify(currentComment)
     };
     fetch("/comments", requestOpts)
     .then(res => res.json())
-    .then(data => console.log("Posted to comments: " + data));
+    .then(commentList => {
+      console.log("Current list of comments: " + commentList);
+      this.setState({commentList})
+    });
+    /* PUSH update to what is shown on the page:
+    let comments = this.state.comments.slice();*/
   }
 
   goToTop(){
@@ -269,7 +286,17 @@ class App extends Component {
       (<li key={user._id}>User #{user._id} is {user.username}</li>)
     );
     const dateNow = new Date().toLocaleString();
-    let commentObject = this.state.comment;
+
+    const comments = this.state.comments.slice();
+    const commentList = comments.map(comment=>
+    (
+      <li key={comment._id}>
+      {comment.name} rated this article as a {comment.rating}:<br />
+      <blockquote>{comment.content}</blockquote>
+      </li>
+    ));
+
+    //let commentObject = this.state.currentComment;
 
     let isOpen, menuStatus;
     const icon = this.state.menuStatus ? "x" : "=";
@@ -309,10 +336,13 @@ class App extends Component {
             dateNow={dateNow}
             handleInputChange={this.handleChange}
             handleFormSubmit={this.handleSubmit}
-            commentObject={commentObject}
+            commentObject={this.state.currentComment}
           />
 
-          <small>Users in database: <br />{userList}</small>
+          <small>
+            Users in database: <br />{userList}<br />
+            Comments: <br />{commentList}<br />
+          </small>
 
           <ReturnTop top={this.goToTop}/>
 
