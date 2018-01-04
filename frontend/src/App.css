@@ -101,6 +101,14 @@ textarea#comment {
   width: auto;
 }
 
+.comment-item {
+  list-style: none;
+  height: 3em;
+  width: auto;
+  padding: 5px;
+  border: dotted 1px white;
+}
+
 .goTop{
   text-align: center;
   font-family: courier;

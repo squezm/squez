@@ -290,7 +290,7 @@ class App extends Component {
     const comments = this.state.comments.slice();
     const commentList = comments.map(comment=>
     (
-      <li key={comment._id}>
+      <li key={comment._id} className="comment-item">
       {comment.name} rated this article as a {comment.rating}:<br />
       <blockquote>{comment.content}</blockquote>
       </li>
