@@ -101,12 +101,22 @@ textarea#comment {
   width: auto;
 }
 
+.User-section{
+  width: 100%;
+}
+
+.User-comments{
+  border-width: 30%;
+}
+
 .comment-item {
   list-style: none;
-  height: 3em;
-  width: auto;
+  height: 4em;
   padding: 5px;
-  border: dotted 1px white;
+  border-bottom: solid 1px silver;
+  width: 75%;
+  position: relative;
+  left: 2em;
 }
 
 .goTop{
@@ -114,9 +124,36 @@ textarea#comment {
   font-family: courier;
   padding: 1em;
   cursor: pointer;
-  color: rgba(240, 180, 130, 0.9);
+  color: rgba(240, 180, 130, 1);
 }
 
+.visible {
+  opacity: 1;
+  transition: all 2s;
+}
+
+.hidden {
+  opacity: 0;
+  transition: all 2s;
+}
+
+.circle {
+  border: 1.5px solid rgba(240, 180, 130, 0.5);
+  background-image: radial-gradient(
+    circle at center,
+    rgb(0, 15, 30),
+    rgba(255, 255, 255, 0.1) 90%
+    );
+  border-radius: 50px;
+  width: 50px;
+  position: fixed;
+  left: 50%;
+  bottom: 2em;
+}
+
+.circle:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
 /* =================== Mobile layout: use below if screen < max-width ============================= */
 
 @media screen and (max-width: 767.9px) {
@@ -172,7 +209,7 @@ textarea#comment {
   }
 
   .closing {
-    animation: .4s closing-ani;
+    animation: 0.1s closing-ani;
   }
 
   @keyframes opening-ani {
@@ -194,11 +231,11 @@ textarea#comment {
 
   @keyframes slide-down {
     from { opacity: 0; height: 0;}
-    100% { opacity: 1; height: 204px;}
+    100% { opacity: 1; height: 100%;}
   }
 
   @keyframes slide-up {
-    from { opacity: 0.8; height: 204px;}
+    from { opacity: 0.8; height: 100%;}
     100% { opacity: 0; height: 0;}
   }
 

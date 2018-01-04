@@ -167,10 +167,27 @@ function AppContent(props){
   );
 }
 
+function UserSection(props) {
+  return (
+    <div className="User-section pure-g">
+      <div className="pure-u-1 pure-u-md-7-12">
+        <small>Users in database: <br />{props.users}<br /></small>
+      </div>
+      <div className="pure-u-1 pure-u-md-5-12 User-comments">
+          {props.comments}
+      </div>
+    </div>
+  );
+}
+
 function ReturnTop(props){
     return(
       <div className="goTop" onClick={props.top}>
-        The End is the Beginning <strong><sub>^</sub></strong>
+        <div className="circle">
+          <strong><sub>^</sub></strong>
+        </div>
+        <div className="circle-shadow">
+        </div>
       </div>
     );
 }
@@ -188,14 +205,16 @@ class App extends Component {
         rating: 4,
         content: "Write something here"
       },
+      returnIsVis: "hidden"
     };
     this.intervalId = null;
-    this.goToTop = this.goToTop.bind(this);
     this.menuClickToggle = this.menuClickToggle.bind(this);
     this.hideMobileMenu = this.hideMobileMenu.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.postNewComment = this.postNewComment.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.goToTop = this.goToTop.bind(this);
   }
 
   componentDidMount(){
@@ -206,8 +225,13 @@ class App extends Component {
     fetch('/comments')
     .then(res=>res.json())
     .then(comments=>{this.setState({comments}); console.log(this.state.comments)});
-    }
 
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll, this.handleScroll')
+  }
 
   menuClickToggle() {
     this.state.firstLoad ? (
@@ -269,6 +293,11 @@ class App extends Component {
     let comments = this.state.comments.slice();*/
   }
 
+  handleScroll() {
+    window.scrollY > 100 ?
+    this.setState({returnIsVis: "visible"}) : this.setState({returnIsVis: "hidden"});
+    }
+
   goToTop(){
     const deltaY = -1 * Math.round(window.scrollY/22);
     const scrollUp = () => {
@@ -301,7 +330,6 @@ class App extends Component {
     let isOpen, menuStatus;
     const icon = this.state.menuStatus ? "x" : "=";
 
-
     //Remove closing animations from the initial page load
     if (this.state.firstLoad) {
       isOpen = "menu-links-initial";
@@ -310,6 +338,8 @@ class App extends Component {
       isOpen = this.state.menuStatus ? "open" : "closed";
       menuStatus = this.state.menuStatus ? "opening" : "closing";
     }
+
+    let returnIsVis = window.scrollY > 10 ? 'visible' : 'hidden';
 
     return (
       <div className="App">
@@ -339,12 +369,14 @@ class App extends Component {
             commentObject={this.state.currentComment}
           />
 
-          <small>
-            Users in database: <br />{userList}<br />
-            Comments: <br />{commentList}<br />
-          </small>
+          <UserSection
+            users = {userList}
+            comments = {commentList}
+          />
 
-          <ReturnTop top={this.goToTop}/>
+          <div className={this.state.returnIsVis}>
+            <ReturnTop top={this.goToTop}/>
+          </div>
 
         </div>
 
