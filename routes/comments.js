@@ -18,7 +18,11 @@ router.post('/', function(req, res, next) {
     rating: req.body.rating,
     content: req.body.content
   })
-  .then(res => console.log(`Added to database: ${res}`));
+  .then(res => {
+    console.log(`Added to database: ${res}`);
+  });
+
+  res.send({redirect: '/'});
 
 });
 

@@ -23,12 +23,12 @@ import './App.css';
 const AppMenu = (
   <div>
     <ul className="pure-menu-list">
-      <li className="pure-menu-item"><a className="pure-menu-link">S<sup>2</sup>D</a></li>
-      <li className="pure-menu-item"><a className="pure-menu-link">Links</a></li>
-      <li className="pure-menu-item"><a className="pure-menu-link">Arc hive</a></li>
-      <li className="pure-menu-item"><a className="pure-menu-link">About Squez</a></li>
-      <li className="pure-menu-item"><a className="pure-menu-link">Social eyes</a></li>
-      <li className="pure-menu-item"><a className="pure-menu-link">The business</a></li>
+      <li className="pure-menu-item"><a className="pure-menu-link" href="/">S<sup>2</sup>D</a></li>
+      <li className="pure-menu-item"><a className="pure-menu-link" href="/">Links</a></li>
+      <li className="pure-menu-item"><a className="pure-menu-link" href="/">Arc hive</a></li>
+      <li className="pure-menu-item"><a className="pure-menu-link" href="/">About Squez</a></li>
+      <li className="pure-menu-item"><a className="pure-menu-link" href="#comments">Social eyes</a></li>
+      <li className="pure-menu-item"><a className="pure-menu-link" href="/">The business</a></li>
     </ul>
   </div>
 );
@@ -107,7 +107,7 @@ function AppComments (props) {
       <form className="pure-form pure-form-stacked" onSubmit={props.handleSubmit}>
 
         <fieldset>
-          <h3 className="gold-text">Comment on this article</h3>
+          <h3 className="gold-text" id="comments">Comment on this article</h3>
           <label htmlFor="name">Your name</label>
           <input
             id="name"
@@ -325,7 +325,7 @@ class App extends Component {
   }
 
   handleScroll() {
-    window.scrollY > 100 ?
+    window.scrollY > 650 ?
     this.setState({returnIsVis: "visible"}) : this.setState({returnIsVis: "hidden"});
     }
 
@@ -384,25 +384,27 @@ class App extends Component {
     return (
       <div className="App">
 
-        <div className="App-menu pure-menu pure-menu-horizontal">
-          {AppMenu}
-        </div>
+          <div className="App-menu pure-menu pure-menu-horizontal">
+            {AppMenu}
+          </div>
 
-        <AppMobileMenu
-          clickMenu={this.menuClickToggle}
-          menuAni={menuStatus}
-          menuIcon={icon}
-        />
+          <AppMobileMenu
+            clickMenu={this.menuClickToggle}
+            menuAni={menuStatus}
+            menuIcon={icon}
+          />
 
-        <div className={isOpen}>
-          <AppMobileLinks />
-        </div>
+          <div className={isOpen}>
+            <AppMobileLinks />
+          </div>
 
-        <div className="slidy">
 
-          <div onClick={this.hideMobileMenu}>
 
-            {AppHeader}
+        <div onClick={this.hideMobileMenu}>
+
+          {AppHeader}
+
+          <div className="slidy">
 
             <AppContent
               dateNow={dateNow}
@@ -423,6 +425,7 @@ class App extends Component {
           </div>
 
         </div>
+
 
       </div>
     );

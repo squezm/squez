@@ -6,6 +6,7 @@ var mongoDB = 'mongodb://localhost/marks_database';
 //process.env.PRODUCTION === true ? connect to mongolab : connect to local mongodb server
 //heroku config:set PRODUCTION = true or heroku config:get PRODUCTION
 //mongoose.connect(mongolabURI, {useMongoClient: true});
+process.env.PRODUCTION == 'development' ? console.log('Development environment.') : console.log('Production environment.');
 mongoose.connect(mongolabURI, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
