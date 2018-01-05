@@ -63,8 +63,9 @@ div.large {
   text-align: left;
 }
 
-a.no-underline {
+.gold-text, a.no-underline, a:visited {
   text-decoration: none;
+  color: rgba(240, 180, 130, 0.9)
 }
 
 .App-article-title {
@@ -85,8 +86,8 @@ p.App-article-first::first-letter{
 }
 
 .App-comments {
-  margin-top: 1em;
-  padding: 0.5em;
+  /*margin-top: 1em;*/
+  padding-left: 0.5em;
   position: relative;
   left: 4em;
 }
@@ -111,7 +112,7 @@ textarea#comment {
 
 .comment-item {
   list-style: none;
-  height: 4em;
+  height: 6em;
   padding: 5px;
   border-bottom: solid 1px silver;
   width: 75%;
@@ -137,22 +138,57 @@ textarea#comment {
   transition: all 2s;
 }
 
+.arrow-up {
+  display: block;
+  position: relative;
+  /*top: 19px;*/
+  top: 14px;
+  left: 14px;
+  border-top: 2px solid rgba(240, 180, 130, 0.7);
+  border-left: 2px solid rgba(240, 180, 130, 0.7);
+  transform: rotate(45deg);
+  width: 20px;
+  height: 20px;
+}
+
+.arrow-up-lower {
+  /*border-width: 1.5px;*/
+  width: 15px;
+  height: 15px;
+  left: 16.5px;
+  top: 5px;
+}
+
 .circle {
-  border: 1.5px solid rgba(240, 180, 130, 0.5);
+  border: 1.5px solid rgba(240, 180, 130, 0.7);
   background-image: radial-gradient(
     circle at center,
     rgb(0, 15, 30),
     rgba(255, 255, 255, 0.1) 90%
     );
-  border-radius: 50px;
+  border-radius: 50%;
   width: 50px;
+  height: 50px;
   position: fixed;
   left: 50%;
   bottom: 2em;
 }
 
-.circle:hover {
+.circle:active {
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+.bounce {
+  position: relative;
+  animation: 1s linear bounce;
+}
+
+@keyframes bounce {
+  from {}
+  20% { top: -5px; }
+  29% { top: -1px; }
+  48% { top: -3px; }
+  75% { top: 0px; }
 }
 /* =================== Mobile layout: use below if screen < max-width ============================= */
 
@@ -212,6 +248,19 @@ textarea#comment {
     animation: 0.1s closing-ani;
   }
 
+  .bounce {
+    position: relative;
+    animation: 1s linear bounce;
+  }
+
+  @keyframes bounce {
+    from {}
+    20% { top: -5px; }
+    29% { top: -1px; }
+    48% { top: -3px; }
+    75% { top: 0px; }
+  }
+
   @keyframes opening-ani {
     from {
     }
@@ -231,11 +280,11 @@ textarea#comment {
 
   @keyframes slide-down {
     from { opacity: 0; height: 0;}
-    100% { opacity: 1; height: 100%;}
+    100% { opacity: 1; height: 205px;}
   }
 
   @keyframes slide-up {
-    from { opacity: 0.8; height: 100%;}
+    from { opacity: 0.8; height: 205px;}
     100% { opacity: 0; height: 0;}
   }
 

@@ -107,7 +107,7 @@ function AppComments (props) {
       <form className="pure-form pure-form-stacked" onSubmit={props.handleSubmit}>
 
         <fieldset>
-          <h3>Comment on this article</h3>
+          <h3 className="gold-text">Comment on this article</h3>
           <label htmlFor="name">Your name</label>
           <input
             id="name"
@@ -180,16 +180,47 @@ function UserSection(props) {
   );
 }
 
-function ReturnTop(props){
+/*(<div className="circle">
+  <strong><sub>^</sub></strong>
+</div>)*/
+
+class ReturnTop extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      bounce: true,
+      intervalId: null,
+    }
+    this.bounceId = null;
+    this.setBounce = this.setBounce.bind(this);
+  }
+
+  setBounce(){
+    this.setState({bounce: !this.state.bounce});
+  }
+
+  componentDidMount(){
+    const bounceId = setInterval(this.setBounce, 1850);
+    this.setState({intervalId: bounceId});
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.intervalId);
+  }
+  //add an animation to bounce the arrow every couple seconds
+  render(){
+    var bouncy = this.state.bounce ? "bounce" : "";
     return(
-      <div className="goTop" onClick={props.top}>
+      <div className="goTop" onClick={this.props.top}>
         <div className="circle">
-          <strong><sub>^</sub></strong>
-        </div>
-        <div className="circle-shadow">
+          <div className={bouncy}>
+            <div className="arrow-up"></div>
+            <div className="arrow-up arrow-up-lower"></div>
+          </div>
         </div>
       </div>
     );
+  }
 }
 
 class App extends Component {
@@ -308,6 +339,14 @@ class App extends Component {
     requestAnimationFrame(scrollUp);
   }
 
+  outputRating(stars){
+    let starString = "";
+    for (let i=0; i<stars; i++) {
+      starString += "*";
+    }
+    return starString;
+  }
+
   render() {
 
     const users = this.state.users.slice();
@@ -320,8 +359,9 @@ class App extends Component {
     const commentList = comments.map(comment=>
     (
       <li key={comment._id} className="comment-item">
-      {comment.name} rated this article as a {comment.rating}:<br />
-      <blockquote>{comment.content}</blockquote>
+      {comment.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dateNow} <br />
+      Rating: <large>{this.outputRating(comment.rating)}</large><br /><br />
+      {comment.content}
       </li>
     ));
 
@@ -358,24 +398,28 @@ class App extends Component {
           <AppMobileLinks />
         </div>
 
-        <div onClick={this.hideMobileMenu}>
+        <div className="slidy">
 
-          {AppHeader}
+          <div onClick={this.hideMobileMenu}>
 
-          <AppContent
-            dateNow={dateNow}
-            handleInputChange={this.handleChange}
-            handleFormSubmit={this.handleSubmit}
-            commentObject={this.state.currentComment}
-          />
+            {AppHeader}
 
-          <UserSection
-            users = {userList}
-            comments = {commentList}
-          />
+            <AppContent
+              dateNow={dateNow}
+              handleInputChange={this.handleChange}
+              handleFormSubmit={this.handleSubmit}
+              commentObject={this.state.currentComment}
+            />
 
-          <div className={this.state.returnIsVis}>
-            <ReturnTop top={this.goToTop}/>
+            <UserSection
+              users = {userList}
+              comments = {commentList}
+            />
+
+            <div className={this.state.returnIsVis}>
+              <ReturnTop top={this.goToTop}/>
+            </div>
+
           </div>
 
         </div>
