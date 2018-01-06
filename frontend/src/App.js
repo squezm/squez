@@ -246,7 +246,7 @@ class App extends Component {
         date: null,
       },
       filled: true,
-    //  returnIsVis: "hidden"
+      returnIsVis: "hidden"
     };
     this.intervalId = null;
     this.menuClickToggle = this.menuClickToggle.bind(this);
@@ -355,7 +355,7 @@ class App extends Component {
     .then(commentList => {
       console.log("Current list of comments: " + commentList);
       this.setState({commentList});
-      window.location.href="#comments";
+      window.location.href="";
     });
     /* PUSH update to what is shown on the page:
     let comments = this.state.comments.slice();*/
@@ -433,8 +433,6 @@ class App extends Component {
     }
 
     const commentWarning = this.state.filled ? "complete" : "incomplete";
-
-    //let returnIsVis = window.scrollY > 10 ? 'visible' : 'hidden';
 
     return (
       <div className="App">
