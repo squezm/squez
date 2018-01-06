@@ -30,7 +30,8 @@ var UserSchema = new Schema({
 var CommentSchema = new Schema({
   name: String,
   rating: Number,
-  content: String
+  content: String,
+  date: String
 });
 
 mongoose.model('UserModel', UserSchema, 'usermodels');

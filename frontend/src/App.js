@@ -36,14 +36,18 @@ const AppMenu = (
 function AppMobileMenu(props) {
   return (
     <div className="App-mobile-menu" onClick={props.clickMenu}>
-      Menu <div className={props.menuAni}>{props.menuIcon}</div>
+      M E N U <div className={props.menuAni}>{props.menuIcon}</div>
     </div>
   );
 }
 
 function AppMobileLinks(props){
   return(
-    <div className="App-mobile-links pure-menu-vertical" id="AppMobileLinks">
+    <div
+      className="App-mobile-links pure-menu-vertical"
+      id="AppMobileLinks"
+      onClick={props.hideLinks}
+    >
       {AppMenu}
     </div>
   );
@@ -107,12 +111,12 @@ function AppComments (props) {
       <form className="pure-form pure-form-stacked" onSubmit={props.handleSubmit}>
 
         <fieldset>
-          <h3 className="gold-text" id="comments">Comment on this article</h3>
+          <h3 className="gold-text">Comment on this article</h3>
           <label htmlFor="name">Your name</label>
           <input
             id="name"
             name="name"
-            placeholder="Name"
+            placeholder="Type your name"
             value={props.comment.name}
             onChange={props.handleChange}
           />
@@ -135,10 +139,13 @@ function AppComments (props) {
           <textarea
             id="comment"
             name="content"
-            placeholder="Write something here..."
+            placeholder="Write comment here!"
             value={props.comment.content}
             onChange={props.handleChange}
           />
+
+          <div className={props.commentWarn}>Please fill everything out before submitting, thanks!</div>
+          <span id="comments"></span>
 
           <button type="submit" className="pure-button">Submit</button>
         </fieldset>
@@ -160,6 +167,7 @@ function AppContent(props){
           comment={props.commentObject}
           handleChange={props.handleInputChange}
           handleSubmit={props.handleFormSubmit}
+          commentWarn={props.commentWarned}
         />
       </div>
     </div>
@@ -200,7 +208,7 @@ class ReturnTop extends Component{
   }
 
   componentDidMount(){
-    const bounceId = setInterval(this.setBounce, 1850);
+    const bounceId = setInterval(this.setBounce, 1500);
     this.setState({intervalId: bounceId});
   }
 
@@ -232,11 +240,13 @@ class App extends Component {
       firstLoad: true,
       menuStatus: null,
       currentComment: {
-        name: "Type your name",
-        rating: 4,
-        content: "Write something here"
+        name: null,
+        rating: 5,
+        content: null,
+        date: null,
       },
-      returnIsVis: "hidden"
+      filled: true,
+    //  returnIsVis: "hidden"
     };
     this.intervalId = null;
     this.menuClickToggle = this.menuClickToggle.bind(this);
@@ -244,6 +254,8 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.postNewComment = this.postNewComment.bind(this);
+    this.warnComment = this.warnComment.bind(this);
+    this.okayComment = this.okayComment.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.goToTop = this.goToTop.bind(this);
   }
@@ -257,7 +269,8 @@ class App extends Component {
     .then(res=>res.json())
     .then(comments=>{this.setState({comments}); console.log(this.state.comments)});
 
-    window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll', this.handleScroll);
+
   }
 
   componentWillUnmount(){
@@ -298,12 +311,35 @@ class App extends Component {
     this.setState(partialState);
   }
 
+  getDate(){
+    let dateNow, month, day, year, hours, hour, minutes;
+    dateNow = new Date();
+    month = dateNow.getMonth()+1;
+    day = dateNow.getDate();
+    year = dateNow.getFullYear();
+    hours = dateNow.getHours();
+    hours > 11 ? (hours -=12, hour = "p.m.") : hours = "a.m.";
+    minutes = dateNow.getMinutes();
+    dateNow = [month,day,year].join('/');
+    dateNow += `\n${hours}:${minutes} ${hour}`;
+
+    return(dateNow.toString());
+  }
+
   handleSubmit(event) {
     event.preventDefault();
+
+    let partialState = {currentComment: this.state.currentComment};
+
+    let dateNow = this.getDate();
+    partialState.currentComment["date"] = dateNow;
+    this.setState(partialState);
+
     const data = this.state.currentComment;
-    (!data || !data.name || !data.rating || !data.content) ? (
-      alert("need to enter something in the forms")
-    ) : this.postNewComment(data);
+    (!data || !data.name || !data.rating || !data.content || !data.date) ? (
+      this.warnComment()
+      //alert("need to enter something in the forms" + data.date)
+    ) : (this.okayComment(), this.postNewComment(data));
   }
 
   postNewComment(currentComment){
@@ -318,10 +354,19 @@ class App extends Component {
     .then(res => res.json())
     .then(commentList => {
       console.log("Current list of comments: " + commentList);
-      this.setState({commentList})
+      this.setState({commentList});
+      window.location.href="#comments";
     });
     /* PUSH update to what is shown on the page:
     let comments = this.state.comments.slice();*/
+  }
+
+  warnComment(){
+    this.setState({filled: false});
+  }
+
+  okayComment(){
+    this.setState({filled: true});
   }
 
   handleScroll() {
@@ -342,9 +387,13 @@ class App extends Component {
   outputRating(stars){
     let starString = "";
     for (let i=0; i<stars; i++) {
-      starString += "*";
+      starString += "\u2605";
     }
     return starString;
+  }
+
+  outputDate(dateIn){
+    return dateIn.toLocaleString();
   }
 
   render() {
@@ -359,27 +408,33 @@ class App extends Component {
     const commentList = comments.map(comment=>
     (
       <li key={comment._id} className="comment-item">
-      {comment.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dateNow} <br />
-      Rating: <large>{this.outputRating(comment.rating)}</large><br /><br />
-      {comment.content}
+        {comment.name}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+        {comment.date}
+        <br />
+        Rating: <span className="stars">{this.outputRating(comment.rating)}</span><br /><br />
+        {comment.content}
       </li>
     ));
 
     //let commentObject = this.state.currentComment;
 
     let isOpen, menuStatus;
-    const icon = this.state.menuStatus ? "x" : "=";
+    const icon = this.state.menuStatus ? "x" : "";
 
     //Remove closing animations from the initial page load
     if (this.state.firstLoad) {
       isOpen = "menu-links-initial";
-      menuStatus = "";
+      menuStatus = "initial-menu";
     } else {
       isOpen = this.state.menuStatus ? "open" : "closed";
       menuStatus = this.state.menuStatus ? "opening" : "closing";
     }
 
-    let returnIsVis = window.scrollY > 10 ? 'visible' : 'hidden';
+    const commentWarning = this.state.filled ? "complete" : "incomplete";
+
+    //let returnIsVis = window.scrollY > 10 ? 'visible' : 'hidden';
 
     return (
       <div className="App">
@@ -395,7 +450,9 @@ class App extends Component {
           />
 
           <div className={isOpen}>
-            <AppMobileLinks />
+            <AppMobileLinks
+              hideLinks={this.hideMobileMenu}
+            />
           </div>
 
 
@@ -411,6 +468,7 @@ class App extends Component {
               handleInputChange={this.handleChange}
               handleFormSubmit={this.handleSubmit}
               commentObject={this.state.currentComment}
+              commentWarned={commentWarning}
             />
 
             <UserSection

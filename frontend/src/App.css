@@ -41,12 +41,14 @@ div.large {
   text-align: center;
   cursor: pointer;
   height: 2.5em;
+  padding-top: .2em;
   background-color: rgb(0, 15, 30);
   color: rgba(190, 190, 190, 1);
   /*position: relative;
   top: .25em;*/
   position: fixed;
   z-index: 20;
+  font-family: Quarca;
 }
 
 .App-mobile-menu, .App-mobile-links{
@@ -143,14 +145,33 @@ textarea#comment {
   border-width: 30%;
 }
 
+.complete{
+  display: none;
+}
+
+.incomplete{
+  display: visible;
+  color: red;
+  font-family: Raleway;
+  font-size: 75%;
+}
+
 .comment-item {
   list-style: none;
   height: auto;
   padding: 5px;
-  border-bottom: solid 1px silver;
+  border-top: dotted 0.5px black;
+  border-bottom: ridge 1px silver;
+  border-right: dotted 1px black;
+  border-left: dotted 1px black;
   width: 75%;
   position: relative;
-  left: 2em;
+  left: .5em;
+}
+
+span.stars {
+  color: rgba(240, 180, 130, 0.9);
+  font-size: 75%;
 }
 
 .goTop{
@@ -203,7 +224,7 @@ textarea#comment {
   width: 50px;
   height: 50px;
   position: fixed;
-  left: 50%;
+  left: 43%;
   bottom: 2em;
 }
 
@@ -237,12 +258,12 @@ textarea#comment {
     height: 2.2em;
     background-color: rgb(0, 15, 30);
     color: rgba(190, 190, 190, 1);
-    padding-top: 0.2em;
+    padding-top: 0.5em;
     text-align: center;
     position: fixed;
     z-index: 20;
     width: 100%;
-    transition: background-color
+    font-family: Quarca;
   }
 
   .App-mobile-menu:focus, .App-mobile-menu:hover {
@@ -258,7 +279,8 @@ textarea#comment {
     top: 2.1em;
     width: 100%;
     height: 100%;
-    font-size: 110%;
+    font-size: 125%;
+    font-weight: bolder;
   }
 
   .closed {
@@ -279,9 +301,23 @@ textarea#comment {
     margin-top: 0;
   }
 
+  .initial-menu, .closing{
+    width: 7px;
+    height: 7px;
+    border-right: 2px double rgb(190, 190, 190);
+    border-bottom: 2px double rgb(190, 190, 190);
+    transform: rotate(45deg);
+    position: relative;
+    left: 49%;
+    top: 5%;
+  }
+
   .opening {
     animation: .2s opening-ani;
     color: orange;
+    font-size: 125%;
+    position: relative;
+    bottom: 10%;
     transform: rotate(90deg);
   }
 
@@ -296,9 +332,9 @@ textarea#comment {
 
   @keyframes bounce {
     from {}
-    20% { top: -5px; }
-    29% { top: -1px; }
-    48% { top: -3px; }
+    20% { top: -8px; }
+    29% { top: -2px; }
+    48% { top: -5px; }
     75% { top: 0px; }
   }
 

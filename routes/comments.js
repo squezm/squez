@@ -16,7 +16,8 @@ router.post('/', function(req, res, next) {
   Comment.create({
     name: req.body.name,
     rating: req.body.rating,
-    content: req.body.content
+    content: req.body.content,
+    date: req.body.date
   })
   .then(res => {
     console.log(`Added to database: ${res}`);
