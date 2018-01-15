@@ -123,6 +123,8 @@ class ReturnTop extends Component{
   }
 }
 
+const nowDate = new Date().toLocaleString();
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -241,7 +243,7 @@ class App extends Component {
     .then(commentList => {
       console.log("Current list of comments: " + commentList);
       this.setState({commentList});
-      window.location.href="#comments";
+      setTimeout(()=>(document.location.reload(true)),100);
     });
   }
 
@@ -287,7 +289,6 @@ class App extends Component {
     const userList = users.map(user=>
       (<li key={user._id}>User #{user._id} is {user.username}</li>)
     );
-    const dateNow = new Date().toLocaleString();
 
     const comments = this.state.comments.slice();
     const commentList = comments.map(comment=>
@@ -343,7 +344,7 @@ class App extends Component {
             <About />
 
             <AppContent
-              dateNow={dateNow}
+              dateNow={nowDate}
               handleInputChange={this.handleChange}
               handleFormSubmit={this.handleSubmit}
               commentObject={this.state.currentComment}
