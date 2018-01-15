@@ -11,8 +11,6 @@
   src: url('./fonts/QuarcaNormRegular.otf');
 }
 html, body {
-  /*background-color: rgb(0, 15, 30);
-  color: rgb(190, 190, 190);*/
   font-family: "Bowhouse";
   font-size: 110%;
 }
@@ -44,9 +42,8 @@ div.large {
   padding-top: .2em;
   background-color: rgb(0, 15, 30);
   color: rgba(190, 190, 190, 1);
-  /*position: relative;
-  top: .25em;*/
   position: fixed;
+  top: 0;
   z-index: 20;
   font-family: Quarca;
 }
@@ -55,8 +52,15 @@ div.large {
   display: none;
 }
 
+a{
+  text-decoration: none;
+}
+
 .App-header {
   background-image: url('beach.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgb(0,15,30);
   height: 650px;
   width: 100%;
   padding-top: 20px;
@@ -81,17 +85,37 @@ div.slidy {
   z-index: 10;
   background-color: white;
   font-family: Bowhouse;
+  width: 100%;
 }
 
 .App-content {
   width: 100%;
-  font-family: "Bowhouse";
+  font-family: "Raleway";
+}
+
+.comment-grid {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr repeat(3, 1fr);
+  grid-template-areas:
+  "g-form g-comments g-comments g-comments";
+  font-size: 85%;
+}
+
+.g-form {
+  grid-area: g-form;
+  padding: 0.5em;
+  height: auto;
+  width: auto;
+}
+
+.g-comments {
+  grid-area: g-comments;
+  padding: 0.5em;
 }
 
 .App-article {
   padding: 0.5em;
-  text-align: left;
-  font-family: "Bowhouse";
 }
 
 .gold-text, a.no-underline, a:visited {
@@ -101,6 +125,7 @@ div.slidy {
 
 .App-article-title {
   text-align: center;
+  padding-top: 0.5em;
 }
 
 .date {
@@ -120,30 +145,77 @@ p.App-article-first::first-letter{
   padding-right: 5px;
 }
 
-.App-comments {
-  /*margin-top: 1em;*/
-  padding-left: 0.5em;
+.about {
+  font-family: Raleway;
+  font-size: 80%;
   position: relative;
-  left: 4em;
+  left: .5em;
+  width: 90%;
+  mix-blend-mode: luminosity;
+}
+
+.overlay {
+  position: relative;
+  background-color: black;
+  color: white;
+  top: 20em;
+  z-index: 50;
+  width: auto;
+  height: auto;
+}
+
+courier {
+  font-family: courier;
+}
+
+.centered-form {
+  width: auto;
+  height: auto;
+  margin: 0 auto;
 }
 
 input, select, option, textarea{
   background-color: rgba(190, 190, 190, 0.3);
   color: rgb(190, 190, 190);
+  border-radius: 0.2em;
+  padding: 0.75em;
+  margin: 2%;
+  display: block;
+}
+
+select {
+  display: inline;
+}
+
+form.comment-form {
+}
+
+input:focus, select:focus, option:focus, textarea:focus {
+  outline: 5px solid rgba(240, 180, 130, 0,8);
+  transition: 0.3s all linear;
+}
+
+button.submit{
+  margin-left: .5em;
+  margin-top: .5em;
+  border-radius: 0.2em;
+  padding: .5em;
+}
+
+label {
+  margin-left: .5em;
 }
 
 textarea#comment {
   height: 10em;
   width: auto;
+  resize: none;
+  overflow: hidden;
 }
 
-.User-section{
+/*.User-section{
   width: 100%;
-}
-
-.User-comments{
-  border-width: 30%;
-}
+}*/
 
 .complete{
   display: none;
@@ -159,14 +231,9 @@ textarea#comment {
 .comment-item {
   list-style: none;
   height: auto;
+  width: auto;
   padding: 5px;
-  border-top: dotted 0.5px black;
-  border-bottom: ridge 1px silver;
-  border-right: dotted 1px black;
-  border-left: dotted 1px black;
-  width: 75%;
-  position: relative;
-  left: .5em;
+  border: dotted 0.5px black;
 }
 
 span.stars {
@@ -261,6 +328,7 @@ span.stars {
     padding-top: 0.5em;
     text-align: center;
     position: fixed;
+    top: 0;
     z-index: 20;
     width: 100%;
     font-family: Quarca;
@@ -285,10 +353,16 @@ span.stars {
 
   .closed {
     opacity: 0;
+/*    background-color: rgba(255, 255, 255, 0);
+    animation: disappear 0.4s;
+    -webkit-animation: disappear 0.4s;*/
   }
 
   .open {
     opacity: 1;
+/*    background-color: rgba(255, 255, 255, 0);
+    animation: appear 0.4s;
+    -webkit-animation: appear 0.4s;*/
   }
 
   .menu-links-initial {
@@ -296,10 +370,10 @@ span.stars {
     opacity: 0;
   }
 
-  .App-comments {
+  /*.App-comments {
     position: static;
     margin-top: 0;
-  }
+  }*/
 
   .initial-menu, .closing{
     width: 7px;
@@ -355,14 +429,28 @@ span.stars {
     }
   }
 
-  @keyframes slide-down {
-    from { opacity: 0;}
-    100% { opacity: 1;}
+  @keyframes appear {
+    from { opacity: 0; background-color: rgba(255, 255, 255, 0);}
+    100% { opacity: 1; background-color: rgba(255, 255, 255, 1);}
   }
 
-  @keyframes slide-up {
-    from { opacity: 1;}
-    100% { opacity: 0;}
+  @keyframes disappear {
+    from { opacity: 1; background-color: rgba(255, 255, 255, 1);}
+    100% { opacity: 0; background-color: rgba(255, 255, 255, 0);}
+  }
+
+  @-webkit-keyframes appear {
+    from { opacity: 0; background-color: rgba(255, 255, 255, 0);}
+    100% { opacity: 1; background-color: rgba(255, 255, 255, 1);}
+  }
+
+  @-webkit-keyframes disappear {
+    from { opacity: 1; background-color: rgba(255, 255, 255, 1);}
+    100% { opacity: 0; background-color: rgba(255, 255, 255, 0);}
+  }
+
+  .comment-grid {
+    display: block;
   }
 
 }

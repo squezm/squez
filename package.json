@@ -10,16 +10,20 @@
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "ejs": "^2.3.3",
     "express": "~4.15.5",
+    "express-session": "^1.11.3",
     "jade": "~1.11.0",
     "mongoose": "^4.13.7",
     "morgan": "~1.9.0",
     "nodemon": "^1.14.3",
-    "serve-favicon": "~2.4.5",
     "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "serve-favicon": "~2.4.5"
   }
 }

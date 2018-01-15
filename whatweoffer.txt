@@ -1,0 +1,23 @@
+S2D
+
+Services:
+-I create websites
+-Updating old web pages to utilize modern web design trends
+-Forms, CMS services, user login/logout and admin portals
+-Database development, database management
+-E-commerce
+-Secure login functionality
+Frontend:
+-Color schemes, font selection
+-Image and video / media
+-Responsive web design - layouts that look great and adapt to any
+ screen size ranging from iPhone/Android phones to full size Desktop
+ computers
+-Testing: ensure site runs well when internet connection is slow or
+ almost non-existent
+-Advertisement: linking business ads between sites to generate web traffic
+-HTML5 / CSS3
+-Web Layout
+
+Collaboration:
+-Please contact me if you would like to collaborate on a project.

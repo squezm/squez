@@ -25,7 +25,57 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
+    <div id="root">
+      <style type="text/css">
+      .loading{
+        position: fixed;
+      }
+      .one{
+        animation: 1s ease-in infinite one-grow;
+        position: relative;
+        display: inline;
+      }
+      .two{
+        animation: 1s ease-in infinite two-grow;
+        display: inline;
+      }
+      .three{
+        animation: 1s ease-in infinite three-grow;
+        display: inline;
+      }
+      .inline {
+        display: inline;
+        font-size: 300%;
+      }
+      @keyframes one-grow {
+        from {font-weight: bolder;}
+        33%{font-weight: bold;}
+        66%{font-weight: normal;}
+        normal{font-weight: bold;}
+      }
+      @keyframes two-grow {
+        from {font-weight: bold;}
+        33%{font-weight: bolder;}
+        66%{font-weight: bold;}
+        normal{font-weight: normal;}
+      }
+      @keyframes three-grow {
+        from {font-weight: normal;}
+        33%{font-weight: bold;}
+        66%{font-weight: bolder;}
+        normal{font-weight: bold;}
+      }
+      </style>
+      <body>
+        <div class="loading">Loading
+          <div class="inline">
+            <span class="one">.</span>
+            <span class="two">.</span>
+            <span class="three">.</span>
+          </div>
+        </div>
+
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
