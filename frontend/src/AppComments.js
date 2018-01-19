@@ -1,4 +1,5 @@
 import React from 'react';
+import './comments.css';
 
 function AppComments (props) {
   return(
@@ -24,7 +25,7 @@ function AppComments (props) {
               <textarea
                 id="comment"
                 name="content"
-                placeholder="Write comment here!"
+                placeholder="Leave us a comment"
                 required
                 value={props.comment.content}
                 onChange={props.handleChange}
@@ -45,7 +46,6 @@ function AppComments (props) {
               </select><br />
 
               <div className={props.commentWarn}>Please fill everything out before submitting, thanks!</div>
-              <span id="comments"></span>
 
               <button type="submit" className="submit">Submit</button>
             </div>
@@ -59,6 +59,7 @@ function AppComments (props) {
         <br />
         <small>&nbsp;See all comments</small>
       </div>
+      <span id="comments"></span>
 
     </div>
 );

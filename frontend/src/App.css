@@ -15,45 +15,102 @@ html, body {
   font-size: 110%;
 }
 
-strong {
-  font-weight: bolder;
-  font-size: 250%;
+ul.flex-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -1.28em;
+  left: -2em;
 }
 
-.pure-menu-link, .pure-menu-link:visited { /*override pure css*/
+ul.flex-menu  li {
+  list-style-type: none;
+  padding: 0.8em;
+  cursor: pointer;
+}
+
+ul.flex-menu li:hover {
+  background-color: #eee;
+}
+
+ul.flex-menu > a {
+  text-decoration: none;
   color: rgb(190, 190, 190);
 }
 
-h1.App-title{
+div.s2d {
+  float: left;
+  position: fixed;
+  z-index: 3;
+  left: 0.5em;
+  top: -0.15em;
+  padding: 0.8em;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px white;
+  color: rgb(190, 190, 190);
+}
+
+ div.s2d > a:hover {
+   color: orange;
+   transition: .1s color ease-in;
+ }
+
+a.active-link {
+  border-bottom: 0.125em solid orange;
+}
+
+/*offset the active link border making the list item grow vertically*/
+.active-link > li {
   position: relative;
-  top: 2.5em;
-  color: rgba(240, 180, 130, 0.75);
+  top: .0625em;
+}
+
+h3.App-article-title > a {
+  text-decoration: none;
+  color: rgb(240, 180, 130);
+}
+
+h1.App-title {
+  position: relative;
+  top: 2em;
+  color: rgba(240, 180, 130, 0.85);
   font-family: Quarca;
+  width: 200px;
+  margin: 0 auto;
+}
+
+h1.App-title:hover {
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: 0.25s color linear;
 }
 
 div.large {
-  font-size: 200%;
+  font-size: 185%;
+  padding: 0;
+  padding-bottom: .25em;
+  margin: 0;
 }
 
 .App-menu {
+  width: 100%;
   text-align: center;
-  cursor: pointer;
   height: 2.5em;
   padding-top: .2em;
   background-color: rgb(0, 15, 30);
   color: rgba(190, 190, 190, 1);
   position: fixed;
   top: 0;
-  z-index: 20;
+  z-index: 2;
   font-family: Quarca;
 }
 
+/*see the @media mobile section at end of this file*/
 .App-mobile-menu, .App-mobile-links{
   display: none;
-}
-
-a{
-  text-decoration: none;
 }
 
 .App-header {
@@ -71,18 +128,10 @@ a{
   top: 2.4em;
 }
 
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
 div.slidy {
   position: relative;
   top: 690px;
-  z-index: 10;
+  z-index: 1;
   background-color: white;
   font-family: Bowhouse;
   width: 100%;
@@ -93,6 +142,7 @@ div.slidy {
   font-family: "Raleway";
 }
 
+/*=================================Start Comment Grid=========================*/
 .comment-grid {
   display: grid;
   grid-template-rows: auto;
@@ -113,13 +163,14 @@ div.slidy {
   grid-area: g-comments;
   padding: 0.5em;
 }
+/*=================================End Comment Grid=========================*/
 
 .App-article {
-  padding: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
-.gold-text, a.no-underline, a:visited {
-  text-decoration: none;
+.gold-text{
   color: rgba(240, 180, 130, 0.9)
 }
 
@@ -128,12 +179,12 @@ div.slidy {
   padding-top: 0.5em;
 }
 
-.date {
+div.date {
   text-align: center;
   font-size: 80%;
 }
 
-p{
+div.App-article > p {
   font-family: Raleway;
 }
 
@@ -145,97 +196,6 @@ p.App-article-first::first-letter{
   padding-right: 5px;
 }
 
-.about {
-  font-family: Raleway;
-  font-size: 80%;
-  position: relative;
-  left: .5em;
-  width: 90%;
-  mix-blend-mode: luminosity;
-}
-
-.overlay {
-  position: relative;
-  background-color: black;
-  color: white;
-  top: 20em;
-  z-index: 50;
-  width: auto;
-  height: auto;
-}
-
-courier {
-  font-family: courier;
-}
-
-.centered-form {
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-}
-
-input, select, option, textarea{
-  background-color: rgba(190, 190, 190, 0.3);
-  color: rgb(190, 190, 190);
-  border-radius: 0.2em;
-  padding: 0.75em;
-  margin: 2%;
-  display: block;
-}
-
-select {
-  display: inline;
-}
-
-form.comment-form {
-}
-
-input:focus, select:focus, option:focus, textarea:focus {
-  outline: 5px solid rgba(240, 180, 130, 0,8);
-  transition: 0.3s all linear;
-}
-
-button.submit{
-  margin-left: .5em;
-  margin-top: .5em;
-  border-radius: 0.2em;
-  padding: .5em;
-}
-
-label {
-  margin-left: .5em;
-}
-
-textarea#comment {
-  height: 10em;
-  width: auto;
-  resize: none;
-  overflow: hidden;
-}
-
-/*.User-section{
-  width: 100%;
-}*/
-
-.complete{
-  display: none;
-}
-
-.incomplete{
-  display: visible;
-  color: red;
-  font-family: Raleway;
-  font-size: 75%;
-}
-
-.comment-item {
-  list-style: none;
-  height: auto;
-  width: auto;
-  padding: 5px;
-  border: dotted 0.5px black;
-}
-
 span.stars {
   color: rgba(240, 180, 130, 0.9);
   font-size: 75%;
@@ -244,25 +204,23 @@ span.stars {
 .goTop{
   text-align: center;
   font-family: courier;
-  padding: 1em;
   cursor: pointer;
   color: rgba(240, 180, 130, 1);
 }
 
 .visible {
   opacity: 1;
-  transition: all 2s;
+  transition: all .5s;
 }
 
 .hidden {
   opacity: 0;
-  transition: all 2s;
+  transition: all .5s;
 }
 
 .arrow-up {
   display: block;
   position: relative;
-  /*top: 19px;*/
   top: 14px;
   left: 14px;
   border-top: 2px solid rgba(240, 180, 130, 0.7);
@@ -273,7 +231,6 @@ span.stars {
 }
 
 .arrow-up-lower {
-  /*border-width: 1.5px;*/
   width: 15px;
   height: 15px;
   left: 16.5px;
@@ -295,8 +252,10 @@ span.stars {
   bottom: 2em;
 }
 
-.circle:active {
-  background-color: rgba(255, 255, 255, 0.7);
+.circle:active, .circle:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(240, 180, 150, 0.8);
+  transition: 0.1s all linear;
 }
 
 .bounce {
@@ -320,8 +279,8 @@ span.stars {
   }
 
   .App-mobile-menu {
-    display: block;
     cursor: pointer;
+    display: block;
     height: 2.2em;
     background-color: rgb(0, 15, 30);
     color: rgba(190, 190, 190, 1);
@@ -329,7 +288,7 @@ span.stars {
     text-align: center;
     position: fixed;
     top: 0;
-    z-index: 20;
+    z-index: 2;
     width: 100%;
     font-family: Quarca;
   }
@@ -338,10 +297,31 @@ span.stars {
     color: rgba(240, 240, 240, 0.9);
   }
 
+  ul.flex-menu {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: .0125em;
+  }
+
+  ul.flex-menu > li {
+    list-style-type: none;
+    padding: 1em;
+  }
+
+  ul.flex-menu > li:hover, ul.flex-menu > li:active {
+    background-color: #eee;
+  }
+
+  .active-link {
+    border-bottom: 2px solid orange;
+  }
+
   .App-mobile-links {
-    cursor: pointer;
     display: block;
-    z-index: 30;
+    z-index: 2;
     position: fixed;
     background-color: white;
     top: 2.1em;
@@ -353,16 +333,10 @@ span.stars {
 
   .closed {
     opacity: 0;
-/*    background-color: rgba(255, 255, 255, 0);
-    animation: disappear 0.4s;
-    -webkit-animation: disappear 0.4s;*/
   }
 
   .open {
     opacity: 1;
-/*    background-color: rgba(255, 255, 255, 0);
-    animation: appear 0.4s;
-    -webkit-animation: appear 0.4s;*/
   }
 
   .menu-links-initial {
@@ -370,10 +344,6 @@ span.stars {
     opacity: 0;
   }
 
-  /*.App-comments {
-    position: static;
-    margin-top: 0;
-  }*/
 
   .initial-menu, .closing{
     width: 7px;

@@ -2,10 +2,10 @@ import React from 'react';
 
 function AppArticle(props) {
   return (
-    <div className="App-article">
+    <div className="App-article" id="article-start">
       <h3 className="App-article-title">
         <a className="no-underline" href="https://www.savetheinternet.com/net-neutrality-what-you-need-know-now">
-          Net Neutrality
+          Net Neutrality <span className="stars">{props.rate}</span>
         </a>
       </h3>
 

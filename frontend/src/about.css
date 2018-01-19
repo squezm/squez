@@ -1,3 +1,22 @@
 .aboutSite{
   padding: 0.5em;
+  font-family: Raleway;
+  font-size: 85%;
+}
+
+span.courier {
+  font-family: courier;
+}
+
+.css:hover {
+  background-color: white;
+}
+
+.css:nth-of-type(2n) {
+  background-color: rgb(190, 190, 190);
+}
+
+div.aboutSite > a,  div.aboutSite > a:visited {
+  text-decoration: none;
+  color: rgb(75, 125, 225);
 }

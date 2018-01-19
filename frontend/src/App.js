@@ -2,34 +2,27 @@ import React, { Component } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
 import AppArticle from './AppArticle';
 import AppComments from './AppComments';
-import Home from './Home';
 import About from './About';
 
-import './pure-css/pure.css';
 import './App.css';
 
-/* ================To-do list:=========================================
-
+/* ================TODO================================================
 * Re-factoring is your friend
-  -Refactor to simplify via CSS framework
-  -Refactor to utilize managable React components
-* Prettify the forms
-* Break the app into sub-apps and import into main App
-* Error handling and data validation
-
+* Figure out how to improve performance by removing calculations from render() methods
+* Place them into other lifecycle events
+* Leave a comment by clicking on a star (out of 5)
 ======================================================================*/
 
-/*(<NavLink to="/social" activeClassName="active"><li className="pure-menu-item"><a className="pure-menu-link">Social Eyes</a></li></NavLink>
-<NavLink to="/articles" activeClassName="active"><li className="pure-menu-item"><a className="pure-menu-link">Arc Hive</a></li></NavLink>)*/
-
+//Links and NavLinks return an 'a' element. Apply DOM styling and behaviors accordingly.
+//nest the list item inside the link so that clicking the list item will activate the NavLink
 const AppMenu = props => (
-  <div onClick={props.hideOut}>
-    <ul className="pure-menu-list">
-      <NavLink to="/" activeClassName="active"><li className="pure-menu-item"><a className="pure-menu-link">S<sup>2</sup>D</a></li></NavLink>
-      <NavLink to="/about" activeClassName="active"><li className="pure-menu-item"><a className="pure-menu-link">About</a></li></NavLink>
+  <div>
+    <ul className="flex-menu">
+      <NavLink exact to="/" activeClassName="active-link" onClick={props.start}><li>Home</li></NavLink>
+      <NavLink to="/about" activeClassName="active-link" onClick={props.start}><li>About</li></NavLink>
     </ul>
   </div>
-);
+)
 
 function AppMobileMenu(props) {
   return (
@@ -41,37 +34,29 @@ function AppMobileMenu(props) {
 
 function AppMobileLinks(props){
   return(
-    <div
-      className="App-mobile-links pure-menu-vertical"
-      id="AppMobileLinks"
-    >
-      <AppMenu hideOut={props.hideLinks}/>
+    <div className="App-mobile-links">
+      <AppMenu start={props.starting}/>
     </div>
   );
 }
 
-const AppHeader = (
+const AppHeader = (props) => (
   <header className="App-header">
-    <h1 className="App-title">
-      <div className="large">SQUEZ</div><br />
-      Site Designs
+    <h1 className="App-title" onClick={props.start}>
+
+        <div className="large">SQUEZ</div>
+        Site Designs
+
     </h1>
   </header>
-);
-
-/*const UserSection = (props) => (
-  <div className="pure-g User-section">
-    <div className="pure-u-1 pure-u-lg-7-12">
-      <small>Users in database: <br />{props.users}<br /></small>
-    </div>
-  </div>
-);*/
+)
 
 const AppContent = (props) => (
   <Route exact path="/" render={()=>(
     <div className="App-content">
       <AppArticle
         date={props.dateNow}
+        rate={props.rating}
       />
       <AppComments
         comment={props.commentObject}
@@ -112,7 +97,7 @@ class ReturnTop extends Component{
     var bouncy = this.state.bounce ? "bounce" : "";
     return(
       <div className="goTop" onClick={this.props.top}>
-        <div className="circle">
+        <div className="circle" onClick={this.props.top}>
           <div className={bouncy}>
             <div className="arrow-up"></div>
             <div className="arrow-up arrow-up-lower"></div>
@@ -141,7 +126,8 @@ class App extends Component {
         home: "home",
       },
       filled: true,
-      returnIsVis: "hidden"
+      returnIsVis: "hidden",
+      logoIsVis: true,
     };
     this.menuClickToggle = this.menuClickToggle.bind(this);
     this.hideMobileMenu = this.hideMobileMenu.bind(this);
@@ -152,6 +138,7 @@ class App extends Component {
     this.okayComment = this.okayComment.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.goToTop = this.goToTop.bind(this);
+    this.logoAction = this.logoAction.bind(this);
   }
 
   componentDidMount(){
@@ -181,14 +168,13 @@ class App extends Component {
       this.setState({
         menuStatus: !this.state.menuStatus,
       })
-  )
-}
+    )
+  }
 
   hideMobileMenu() {
       this.setState({
         menuStatus: false,
       });
-      this.goToTop();
     }
 
   handleChange(event) {
@@ -200,7 +186,8 @@ class App extends Component {
     this.setState(partialState);
   }
 
-  getDate(){
+  /*getDate(){
+    //Use this method if you want to store date as a String vice as a Date object.
     let dateNow, month, day, year, hours, hour, minutes;
     dateNow = new Date();
     month = dateNow.getMonth()+1;
@@ -211,8 +198,48 @@ class App extends Component {
     minutes = dateNow.getMinutes();
     dateNow = [month,day,year].join('/');
     dateNow += `\n${hours}:${minutes} ${hour}`;
-
     return(dateNow.toString());
+    //new plan is to modify model to accept a date object and process it after GETing it via API.
+    //below is now used post fetch.
+  }*/
+
+
+  outputDate(dateFetched){
+    let dateIn, dateNow, dateOut, unit, monthNow, monthIn, dayNow, dayIn,
+    yearNow, yearIn, hoursNow, hoursIn, minutesNow, minutesIn, secondsNow, secondsIn, recentSecs;
+    dateNow = new Date();
+    dateIn = new Date(dateFetched); //accepts Date object from database entry
+    monthNow = dateNow.getMonth(); monthIn = dateIn.getMonth();
+    dayNow = dateNow.getDate(); dayIn = dateIn.getDate();
+    yearNow = dateNow.getFullYear(); yearIn = dateIn.getFullYear();
+    hoursNow = dateNow.getHours(); hoursIn = dateIn.getHours();
+    minutesNow = dateNow.getMinutes(); minutesIn = dateIn.getMinutes();
+    secondsNow = dateNow.getSeconds(); secondsIn = dateIn.getSeconds();
+    recentSecs = 15; //How long in seconds after which 'Just posted' is no longer true anymore
+
+//we only want to display the largest unit of time since it was posted, starting with years
+    if (yearNow > yearIn) {
+      dateOut = yearNow - yearIn;
+      (dateOut === 1) ? unit=" year ago" : unit=" years ago";
+    } else if (monthNow > monthIn) {
+      dateOut = monthNow - monthIn;
+      (dateOut === 1) ? unit=" month ago" : unit=" months ago";
+    } else if (dayNow > dayIn) {
+      dateOut = dayNow - dayIn;
+      (dateOut === 1) ? unit=" day ago" : unit=" days ago";
+    } else if (hoursNow > hoursIn) {
+      dateOut = hoursNow - hoursIn;
+      (dateOut === 1) ? unit=" hour ago" : unit=" hours ago";
+    } else if (minutesNow > minutesIn) {
+      dateOut = minutesNow - minutesIn;
+      (dateOut === 1) ? unit=" minute ago" : unit=" minutes ago";
+    } else if ( (secondsNow > secondsIn) && ( (secondsNow - secondsIn)>recentSecs) ) {
+      dateOut = secondsNow - secondsIn;
+      unit=" seconds ago";
+    } else { dateOut = "Just posted"; unit=""}
+
+    dateOut = dateOut.toString() + unit;
+    return dateOut;
   }
 
   handleSubmit(event) {
@@ -220,7 +247,8 @@ class App extends Component {
 
     let partialState = {currentComment: this.state.currentComment};
 
-    let dateNow = this.getDate();
+    //let dateNow = this.getDate();
+    let dateNow = new Date();
     partialState.currentComment["date"] = dateNow;
     this.setState(partialState);
 
@@ -243,7 +271,7 @@ class App extends Component {
     .then(commentList => {
       console.log("Current list of comments: " + commentList);
       this.setState({commentList});
-      setTimeout(()=>(document.location.reload(true)),100);
+      setTimeout(()=>(document.location.reload(true)),1);
     });
   }
 
@@ -258,17 +286,34 @@ class App extends Component {
   handleScroll() {
     window.scrollY > 650 ?
     this.setState({returnIsVis: "visible"}) : this.setState({returnIsVis: "hidden"});
-    }
+  }
 
   goToTop(){
-    let speedFactor = 2;
-    const deltaY = -1 * speedFactor * Math.round(window.scrollY/22);
+    let speedFactor = 1;
+    const deltaY = -1 * speedFactor * Math.round(window.scrollY/24);
     const scrollUp = () => {
       var yPos = window.scrollY;
       yPos > 0 ? (window.scrollBy(0, deltaY), requestAnimationFrame(scrollUp)) : (
         window.scrollTo(0, 0), cancelAnimationFrame(scrollUp));
       }
     requestAnimationFrame(scrollUp);
+  }
+
+  startPage(){
+    let speedFactor = 1;
+    let screenHeight = window.screen.height;
+    const deltaY = speedFactor * Math.round(screenHeight/37);
+    const scrollToStart = () => {
+      var yPos = window.scrollY;
+      (yPos < 225) ? (window.scrollBy(0, deltaY), requestAnimationFrame(scrollToStart)) : (
+        window.scrollTo(0, 225), cancelAnimationFrame(scrollToStart));
+    }
+    requestAnimationFrame(scrollToStart);
+  }
+
+  logoAction() {
+    this.state.menuStatus ? ( this.hideMobileMenu(), this.startPage()
+  ) : ( this.startPage());
   }
 
   outputRating(stars){
@@ -279,10 +324,6 @@ class App extends Component {
     return starString;
   }
 
-  outputDate(dateIn){
-    return dateIn.toLocaleString();
-  }
-
   render() {
 
     const users = this.state.users.slice();
@@ -291,13 +332,21 @@ class App extends Component {
     );
 
     const comments = this.state.comments.slice();
+    comments.reverse(); //put comments in reverse chronological order
+
+    var totalRating=0;
+    for (let comment of comments) {
+      totalRating += parseInt(comment.rating);
+    }
+    totalRating = Math.round(totalRating / comments.length);
+
     const commentList = comments.map(comment=>
     (
       <li key={comment._id} className="comment-item">
         {comment.name}
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <br />
-        {comment.date}
+        <i><small>{this.outputDate(comment.date)}</small></i>
         <br />
         Rating: <span className="stars">{this.outputRating(comment.rating)}</span><br /><br />
         {comment.content}
@@ -321,8 +370,19 @@ class App extends Component {
     return (
       <div className="App">
 
-          <div className="App-menu pure-menu pure-menu-horizontal">
-            <AppMenu />
+          <Link
+            to="/"
+            className={this.state.returnIsVis}
+            >
+            <div className="s2d">
+              <a onClick={this.logoAction}>
+                S<sup>2</sup>D
+              </a>
+            </div>
+          </Link>
+
+          <div className="App-menu">
+            <AppMenu start={this.logoAction}/>
           </div>
 
           <AppMobileMenu
@@ -332,14 +392,16 @@ class App extends Component {
           />
 
           <div className={isOpen}>
-            <AppMobileLinks hideLinks={this.hideMobileMenu} />
+            <AppMobileLinks
+              starting={this.logoAction}
+            />
           </div>
 
-          {AppHeader}
+          <AppHeader
+            start={this.startPage}
+          />
 
           <div className="slidy">
-
-            <Home />
 
             <About />
 
@@ -351,6 +413,7 @@ class App extends Component {
               commentWarned={commentWarning}
               userList = {userList}
               commentList = {commentList}
+              rating = {this.outputRating(totalRating)}
             />
 
             <div className={this.state.returnIsVis}>
