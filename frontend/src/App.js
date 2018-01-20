@@ -45,7 +45,7 @@ const AppHeader = (props) => (
     <h1 className="App-title" onClick={props.start}>
 
         <div className="large">SQUEZ</div>
-        Site Designs
+        <span>Site Designs</span>
 
     </h1>
   </header>

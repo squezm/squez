@@ -28,7 +28,9 @@ const aboutContent = () => (
 
     I have experience in a handful of languages and frameworks to include Python, jQuery, Angular, Django, SciPy/MatPlotLib, and C++.<br /><br />
 
-    Reach me anytime at <a href="mailto:iamsquez@gmail.com">iamsquez@gmail.com</a>.  I look forward to working with you and am always open to collaboration.<br /><br />
+    Reach me anytime at <a href="mailto:iamsquez@gmail.com">iamsquez@gmail.com</a> or visit me on <a href="http://github.com/squezm">GitHub</a>.<br /><br />
+
+    I look forward to working with you and am always open to collaboration!<br /><br />
 
   </div>
   )
