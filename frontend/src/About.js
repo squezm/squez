@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
-import './About.css';
+import './about.css';
 import gear from './gear.svg';
 import gear2 from './gear2.svg';
 
