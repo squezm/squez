@@ -19,7 +19,7 @@ const AppMenu = props => (
   <div>
     <ul className="flex-menu">
       <NavLink exact to="/" activeClassName="active-link" onClick={props.start}><li>Home</li></NavLink>
-      <NavLink to="/about" activeClassName="active-link" onClick={props.start}><li>About</li></NavLink>
+      <NavLink to="/about" activeClassName="active-link" onClick={props.hide}><li>About</li></NavLink>
     </ul>
   </div>
 )
@@ -35,23 +35,28 @@ function AppMobileMenu(props) {
 function AppMobileLinks(props){
   return(
     <div className="App-mobile-links">
-      <AppMenu start={props.starting}/>
+      <AppMenu
+        start={props.starting}
+        hide={props.hiding}
+      />
     </div>
   );
 }
 
-const AppHeader = (props) => (
-  <header className="App-header">
-    <h1 className="App-title" onClick={props.start}>
+const Header = (props) => (
+  <Route exact path="/" render={()=>(
+    <header className="App-header">
+      <h1 className="App-title" onClick={props.start}>
 
-        <div className="large">SQUEZ</div>
-        <span>Site Designs</span>
+          <div className="large">SQUEZ</div>
+          <span>Site Designs</span>
 
-    </h1>
-  </header>
+      </h1>
+    </header>
+  )}/>
 )
 
-const AppContent = (props) => (
+const Home = (props) => (
   <Route exact path="/" render={()=>(
     <div className="App-content">
       <AppArticle
@@ -382,7 +387,9 @@ class App extends Component {
           </Link>
 
           <div className="App-menu">
-            <AppMenu start={this.logoAction}/>
+            <AppMenu
+              start={this.logoAction}
+            />
           </div>
 
           <AppMobileMenu
@@ -394,18 +401,19 @@ class App extends Component {
           <div className={isOpen}>
             <AppMobileLinks
               starting={this.logoAction}
+              hiding={this.hideMobileMenu}
             />
           </div>
 
-          <AppHeader
-            start={this.startPage}
-          />
+          <Header start={this.startPage} />
+
+          <About />
 
           <div className="slidy">
 
-            <About />
 
-            <AppContent
+
+            <Home
               dateNow={nowDate}
               handleInputChange={this.handleChange}
               handleFormSubmit={this.handleSubmit}

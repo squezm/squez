@@ -1,7 +1,15 @@
-.aboutSite{
+.about-site{
   padding: 0.5em;
   font-family: Raleway;
   font-size: 85%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.about-content {
+  position: relative;
+  top: 36em;
+  margin: 0 auto;
 }
 
 span.courier {
@@ -16,7 +24,106 @@ span.courier {
   background-color: rgb(190, 190, 190);
 }
 
-div.aboutSite > a,  div.aboutSite > a:visited {
+div.about-content > a,  div.about-content > a:visited {
   text-decoration: none;
   color: rgb(75, 125, 225);
+}
+
+div.overlay > a, div.overlay > a:visited {
+  color: white;
+}
+
+
+/*===================S2D header===========================================*/
+
+div.About-Header {
+  position: absolute;
+  width: 100%;
+}
+div.overlay {
+  z-index: 1;
+  background-color: rgba(100, 170, 100, 0.6);
+  /*width: 33.3em;*/
+  width: 60.6em;
+  height: 36.3em;
+  font-family: courier;
+  color: white;
+}
+h1.title {
+  position: absolute;
+  left: 12em;
+  top: 13em;
+}
+h1.title:hover {
+  color: orange;
+  cursor: pointer;
+}
+.gridlines-box {
+  display: grid;
+  grid-template-rows: repeat(12, 3em);
+  grid-template-columns: repeat(20, 3em);
+  grid-gap: 0.5px;
+  position: absolute;
+  z-index: -1;
+}
+.grid-box {
+  background-color: rgba(0, 100, 230, 0.6);
+}
+.gears {
+  position: absolute;
+  left: 10em;
+}
+.gear {
+  /*48 pitch, 32 tooth, 20 degree pressure angle, scale 250*/
+  animation: clockwise 6s linear infinite;
+  position: absolute;
+  /*top: 20.6em;
+  left: -.63em;*/
+  top: 19.5em;
+  left: -1.1em;
+}
+.gear2 {
+  /*48 pitch, 64 tooth, 20 degree pressure angle, scale 250*/
+  animation: counterclockwise 12s linear infinite;
+  position: absolute;
+}
+.gear3 {
+  position: absolute;
+  top: 6.5em;
+  left: 6.5em;
+  animation: counterclockwise 12s linear infinite;
+}
+.gear4 {
+  position: absolute;
+  top: 11em;
+  left: 11.8em;
+  animation: clockwise 24s linear infinite;
+}
+@keyframes clockwise {
+  from {}
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes counterclockwise {
+  from {}
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/*============================Mobile=======================*/
+@media screen and (max-width: 767.9px) {
+  div.About-Header {
+    position: absolute;
+    left: -15em;
+    width: 50%;
+    max-width: 767.9px;
+  }
+  .gridlines-box {
+    grid-template-columns: repeat(15, 3em);
+  }
+  div.overlay {
+    max-width: 750px;
+  }
 }
