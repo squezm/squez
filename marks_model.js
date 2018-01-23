@@ -3,11 +3,13 @@ var mongoose = require('mongoose');
 var dbpassword = 'orion5SKY'; //hide using environment variable
 var mongolabURI = 'mongodb://squezm:'+dbpassword+'@ds133627.mlab.com:33627/heroku_g5p0bbbv';
 var mongoDB = 'mongodb://localhost/marks_database';
-//process.env.PRODUCTION === true ? connect to mongolab : connect to local mongodb server
-//heroku config:set PRODUCTION = true or heroku config:get PRODUCTION
-//mongoose.connect(mongolabURI, {useMongoClient: true});
-process.env.PRODUCTION == 'development' ? console.log('Development environment.') : console.log('Production environment.');
-mongoose.connect(mongolabURI, {useMongoClient: true});
+var connection_option;
+//If an internet connection is available, set PRODUCTION to true;
+process.env.PRODUCTION = false;
+(process.env.PRODUCTION) ? (
+  connection_option = mongolabURI, console.log('Production environment.') ) : (
+  connection_option = mongoDB, console.log('Development environment.'));
+mongoose.connect(mongoDB, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB had a connection error.'));

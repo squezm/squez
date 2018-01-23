@@ -19,7 +19,8 @@ const AppMenu = props => (
   <div>
     <ul className="flex-menu">
       <NavLink exact to="/" activeClassName="active-link" onClick={props.start}><li>Home</li></NavLink>
-      <NavLink to="/about" activeClassName="active-link" onClick={props.hide}><li>About</li></NavLink>
+      <NavLink to="/about" activeClassName="active-link" onClick={props.start}><li>About</li></NavLink>
+      <a href="http://github.com/squezm"><li>GitHub</li></a>
     </ul>
   </div>
 )
@@ -310,8 +311,8 @@ class App extends Component {
     const deltaY = speedFactor * Math.round(screenHeight/37);
     const scrollToStart = () => {
       var yPos = window.scrollY;
-      (yPos < 225) ? (window.scrollBy(0, deltaY), requestAnimationFrame(scrollToStart)) : (
-        window.scrollTo(0, 225), cancelAnimationFrame(scrollToStart));
+      (yPos < 370) ? (window.scrollBy(0, deltaY), requestAnimationFrame(scrollToStart)) : (
+        window.scrollTo(0, 370), cancelAnimationFrame(scrollToStart));
     }
     requestAnimationFrame(scrollToStart);
   }

@@ -1,19 +1,21 @@
 .about-site{
-  padding: 0.5em;
   font-family: Raleway;
   font-size: 85%;
   position: relative;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .about-content {
+  padding: 0.5em;
+  width: 99%;
   position: relative;
-  top: 36em;
+  top: 38em;
   margin: 0 auto;
 }
 
 span.courier {
   font-family: courier;
+  font-size: 120%;
 }
 
 .css:hover {
@@ -33,36 +35,39 @@ div.overlay > a, div.overlay > a:visited {
   color: white;
 }
 
-
 /*===================S2D header===========================================*/
 
-div.About-Header {
+div.about-header {
   position: absolute;
   width: 100%;
+  height: auto;
+  overflow: hidden;
+  top: 2.4em;
 }
 div.overlay {
   z-index: 1;
   background-color: rgba(100, 170, 100, 0.6);
-  /*width: 33.3em;*/
-  width: 60.6em;
-  height: 36.3em;
+  width: 100%;
+  height: 37em;
   font-family: courier;
   color: white;
+  /*width: 33.3em;*/
+  /*width: 60.6em;*/
 }
 h1.title {
   position: absolute;
-  left: 12em;
-  top: 13em;
+  margin-top: 14em;
+  margin-left: 50%;
 }
-h1.title:hover {
+h1.title:hover, h1.title:active {
   color: orange;
   cursor: pointer;
 }
 .gridlines-box {
   display: grid;
   grid-template-rows: repeat(12, 3em);
-  grid-template-columns: repeat(20, 3em);
-  grid-gap: 0.5px;
+  grid-template-columns: repeat(50, 3em);
+  grid-gap: 0.1em;
   position: absolute;
   z-index: -1;
 }
@@ -70,8 +75,10 @@ h1.title:hover {
   background-color: rgba(0, 100, 230, 0.6);
 }
 .gears {
-  position: absolute;
-  left: 10em;
+  position: relative;
+  width: 50%;
+  height: auto;
+  margin: 0 auto;
 }
 .gear {
   /*48 pitch, 32 tooth, 20 degree pressure angle, scale 250*/
@@ -114,16 +121,20 @@ h1.title:hover {
 
 /*============================Mobile=======================*/
 @media screen and (max-width: 767.9px) {
-  div.About-Header {
-    position: absolute;
-    left: -15em;
-    width: 50%;
-    max-width: 767.9px;
+  /*demystify the reason for below 2 hacks
+  div.about-header {
+    width: 102%;
   }
-  .gridlines-box {
-    grid-template-columns: repeat(15, 3em);
+  div.about-content {
+    width: 95%;
+  }*/
+  .gears {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
   }
-  div.overlay {
-    max-width: 750px;
+  h1.title {
+    margin-left: 40%;
   }
 }
