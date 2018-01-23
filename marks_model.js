@@ -5,7 +5,7 @@ var mongolabURI = 'mongodb://squezm:'+dbpassword+'@ds133627.mlab.com:33627/herok
 var mongoDB = 'mongodb://localhost/marks_database';
 var connection_option;
 //If an internet connection is available, set PRODUCTION to true;
-process.env.PRODUCTION = false;
+process.env.PRODUCTION = true;
 (process.env.PRODUCTION) ? (
   connection_option = mongolabURI, console.log('Production environment.') ) : (
   connection_option = mongoDB, console.log('Development environment.'));
