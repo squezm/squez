@@ -9,7 +9,7 @@ process.env.PRODUCTION = true;
 (process.env.PRODUCTION) ? (
   connection_option = mongolabURI, console.log('Production environment.') ) : (
   connection_option = mongoDB, console.log('Development environment.'));
-mongoose.connect(mongoDB, {useMongoClient: true});
+mongoose.connect(connection_option, {useMongoClient: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB had a connection error.'));
